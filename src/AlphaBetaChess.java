@@ -48,7 +48,7 @@ public class AlphaBetaChess {
 		//sort later
 		player = 1 - player;//either 1 or 0
 		for(int i = 0;i<list.length();i+=5){
-			System.out.println(list.substring(i,i+5));
+			//System.out.println(list.substring(i,i+5));
 			makeMove(list.substring(i, i+5));
 			flipboard();
 			String returnString = alphaBeta(depth-1, beta, alpha, list.substring(i,i+5), player);
@@ -77,7 +77,7 @@ public class AlphaBetaChess {
 			}else{
 				temp = chessBoard[r][c].toUpperCase();
 			}
-			if(Character.isUpperCase(chessBoard[7-1][7-c].charAt(0))){
+			if(Character.isUpperCase(chessBoard[7-r][7-c].charAt(0))){
 				chessBoard[r][c]= chessBoard[7-r][7-c].toLowerCase();
 			}else{
 				chessBoard[r][c]=chessBoard[7-r][7-c].toUpperCase();
@@ -87,6 +87,10 @@ public class AlphaBetaChess {
 		int kingTemp = kingPositionC;
 		kingPositionC = 63 - kingPositionL;
 		kingPositionL = 63 - kingTemp;
+		//for(int i = 0;i<8;i++){
+			//System.out.println(Arrays.toString(chessBoard[i]));
+			//}
+		
 	}
 	
 	public static void makeMove(String move){
@@ -402,7 +406,7 @@ public class AlphaBetaChess {
 							if(kingSafe()){
 								list = list+r+c+(r-1+j/3)+(c-1+j%3) + oldPiece;
 							}
-							chessBoard[r][c] = "A";
+							chessBoard[r][c] = "K";
 							chessBoard[r-1+j/3][c-1+j%3] = oldPiece;
 							kingPositionC = kingTemp;
 						}
