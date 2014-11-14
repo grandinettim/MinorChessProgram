@@ -194,7 +194,7 @@ public class AlphaBetaChess {
 						chessBoard[r-1][c]=oldPiece;
 					}
 				}catch(Exception e){}
-			try{//promotion no caputre
+			try{//promotion no capture
 				if(" ".equals(chessBoard[r-1][c]) &&i<16){
 					String[] temp = {"Q","R","B","N"};
 					for(int k = 0; k < 4 ; k++){
