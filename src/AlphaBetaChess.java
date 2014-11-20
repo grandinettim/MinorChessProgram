@@ -25,12 +25,12 @@ public class AlphaBetaChess {
 		while(!"K".equals(chessBoard[kingPositionC/8][kingPositionC%8])) kingPositionC++;
 		while(!"k".equals(chessBoard[kingPositionL/8][kingPositionL%8])) kingPositionL++;
 		
-		/*JFrame f = new JFrame("Chess Tutorial");
+		JFrame f = new JFrame("Chess Tutorial");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		UserInterface ui = new UserInterface();
 		f.add(ui);
 		f.setSize(500, 500);
-		f.setVisible(true);*/
+		f.setVisible(true);
 		System.out.println(possibleMoves());
 		makeMove(alphaBeta(globalDepth, 1000000,-1000000,"",0));
 		//makeMove("7655 ");
