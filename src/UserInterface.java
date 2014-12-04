@@ -133,10 +133,14 @@ public class UserInterface extends JPanel implements MouseListener,
 				if(userPossibilities.replaceAll(dragMove, "").length()<userPossibilities.length()){
 					//if valid move
 					AlphaBetaChess.makeMove(dragMove);
+					AlphaBetaChess.flipboard();
+					AlphaBetaChess.makeMove(AlphaBetaChess.alphaBeta(AlphaBetaChess.globalDepth, 1000000, -1000000, "", 0));
+					AlphaBetaChess.flipboard();
+					repaint();
 				}
 				
 			}
-			repaint();
+			
 		}
 	}
 
