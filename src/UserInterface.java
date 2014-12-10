@@ -1,15 +1,22 @@
 //Mitchell Kendrioski Chess Tutorial chess.com
 
 import java.awt.*;
+
 import javax.swing.*;
+
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class UserInterface extends JPanel implements MouseListener,
 		MouseMotionListener {
-	static int mouseX, mouseY, newMouseX, newMouseY;
-	
-	static int squareSize = 32;
+	private int mouseX, mouseY, newMouseX, newMouseY;
+	private int squareSize = 32;
+	private AlphaBetaChess game;
 
+	public UserInterface(AlphaBetaChess game) {
+		this.game = game;
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -29,7 +36,7 @@ public class UserInterface extends JPanel implements MouseListener,
 		//g.drawImage(chessPiecesImages, x, 0, x + 100, 100, x, 0, x + 100, 100,this);
 		for (int i = 0; i < 64; i++) {
 			int j = -1, k = -1;
-			switch (AlphaBetaChess.chessBoard[i / 8][i % 8]) {
+			switch (game.getChessBoard()[i / 8][i % 8]) {
 			case "P":
 				j = 5;
 				k = 0;
@@ -122,20 +129,20 @@ public class UserInterface extends JPanel implements MouseListener,
 			newMouseY = e.getY();
 			if(e.getButton()==MouseEvent.BUTTON1){
 				String dragMove;
-				if(newMouseY/squareSize ==0 && mouseY/squareSize ==1 &&"P".equals(AlphaBetaChess.chessBoard[mouseY/squareSize][mouseX/squareSize])){
+				if(newMouseY/squareSize ==0 && mouseY/squareSize ==1 &&"P".equals(game.getChessBoard()[mouseY/squareSize][mouseX/squareSize])){
 					//pawn promotion
-					dragMove=""+mouseX/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize]+"QP";
+					dragMove=""+mouseX/squareSize+newMouseX/squareSize+game.getChessBoard()[newMouseY/squareSize][newMouseX/squareSize]+"QP";
 				}else{
 					//regular move
-					dragMove=""+mouseY/squareSize+mouseX/squareSize+newMouseY/squareSize+newMouseX/squareSize+AlphaBetaChess.chessBoard[newMouseY/squareSize][newMouseX/squareSize];
+					dragMove=""+mouseY/squareSize+mouseX/squareSize+newMouseY/squareSize+newMouseX/squareSize+game.getChessBoard()[newMouseY/squareSize][newMouseX/squareSize];
 				}
-				String userPossibilities= AlphaBetaChess.possibleMoves();
+				String userPossibilities= game.possibleMoves();
 				if(userPossibilities.replaceAll(dragMove, "").length()<userPossibilities.length()){
 					//if valid move
-					AlphaBetaChess.makeMove(dragMove);
-					AlphaBetaChess.flipboard();
-					AlphaBetaChess.makeMove(AlphaBetaChess.alphaBeta(AlphaBetaChess.globalDepth, 1000000, -1000000, "", 0));
-					AlphaBetaChess.flipboard();
+					game.makeMove(dragMove);
+					game.flipboard();
+					game.makeMove(game.alphaBeta("", 0));
+					game.flipboard();
 					repaint();
 				}
 				

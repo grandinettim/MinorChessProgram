@@ -1,6 +1,6 @@
 //chess.com tutorial
 public class Rating {
-	static int pawnBoard[][] = {//attribute to chessprogramming wikispace/simplified evaluation+functions
+	private int pawnBoard[][] = {//attribute to chessprogramming wikispace/simplified evaluation+functions
 		{  0,  0,  0,  0,  0,  0,  0,  0},
 		{ 50, 50, 50, 50, 50, 50, 50, 50},
 		{ 10, 10, 20, 30, 30, 20, 10, 10},
@@ -10,7 +10,7 @@ public class Rating {
 		{  5, 10, 10,-20,-20, 10, 10,  5},
 		{  0,  0,  0,  0,  0,  0,  0,  0},
 	};
-	static int rookBoard[][] = {
+	private int rookBoard[][] = {
 		{  0,  0,  0,  0,  0,  0,  0,  0},
 		{  5, 10, 10, 10, 10, 10, 10,  5},
 		{ -5,  0,  0,  0,  0,  0,  0, -5},
@@ -20,7 +20,7 @@ public class Rating {
 		{ -5,  0,  0,  0,  0,  0,  0, -5},
 		{  0,  0,  0,  5,  5,  0,  0,  0},
 	};
-	static int knightBoard[][] = {
+	private int knightBoard[][] = {
 		{-50,-40,-30,-30,-30,-30,-40,-50},
 		{-40,-20,  0,  0,  0,  0,-20,-40},
 		{-30,  0, 10, 15, 15, 10,  0,-30},
@@ -30,7 +30,7 @@ public class Rating {
 		{-40,-20,  0,  5,  5,  0,-20,-40},
 		{-50,-40,-30,-30,-30,-30,-40,-50},
 	};
-	static int bishopBoard[][] = {
+	private int bishopBoard[][] = {
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 		{-10,  0,  0,  0,  0,  0,  0,-10},
 		{-10,  0,  5, 10, 10,  5,  0,-10},
@@ -40,7 +40,7 @@ public class Rating {
 		{-10,  5,  0,  0,  0,  0,  5,-10},
 		{-20,-10,-10,-10,-10,-10,-10,-20},
 	};
-	static int queenBoard[][] = {
+	private int queenBoard[][] = {
 		{-20,-10,-10, -5, -5,-10,-10,-20},
 		{-10,  0,  0,  0,  0,  0,  0,-10},
 		{-10,  0,  5,  5,  5,  5,  0,-10},
@@ -50,7 +50,7 @@ public class Rating {
 		{-10,  0,  5,  0,  0,  0,  0,-10},
 		{-20,-10,-10, -5, -5,-10,-10,-20},
 	};
-	static int kingMidBoard[][] = {
+	private int kingMidBoard[][] = {
 		{-50,-40,-40,-50,-50,-40,-40,-50},
 		{-30,-40,-40,-50,-50,-40,-40,-30},
 		{-30,-40, 40,-50,-50,-40,-40,-30},
@@ -60,7 +60,7 @@ public class Rating {
 		{ 20, 20,  0,  0,  0,  0, 20, 20},
 		{ 20, 30, 10,  0,  0, 10, 30, 20},
 	};
-	static int kingEndBoard[][] = {
+	private int kingEndBoard[][] = {
 		{-50,-40,-30,-20,-20,-30,-40,-50},
 		{-30,-10,-10,  0,  0,-10,-20,-30},
 		{-30,-10, 20, 30, 30, 20,-10,-30},
@@ -70,73 +70,79 @@ public class Rating {
 		{-30,-30,  0,  0,  0,  0,-30,-30},
 		{-50,-30,-30,-30,-30,-30,-30,-50},
 	};
-	public static int rating(int list, int depth) {
+
+	private AlphaBetaChess game;
+	
+	public Rating(AlphaBetaChess game){
+		this.game = game;
+	}
+
+	public int rating(int list, int depth) {
 		int counter = 0, material = rateMaterial();
 		counter += rateAttack();
 		counter += material;
 		counter += rateMoveablitly(list,depth,material);
 		counter += ratePositional(material);
-		AlphaBetaChess.flipboard();
+		game.flipboard();
 		material = rateMaterial();
 		counter -= rateAttack();
 		counter -= material;
 		counter -= rateMoveablitly(list,depth,material);
 		counter -= ratePositional(material);
-		AlphaBetaChess.flipboard();
+		game.flipboard();
 		return -(counter+depth*50);
-
 	}
 
-	public static int rateAttack() {
+	public int rateAttack() {
 		int counter = 0;
-		int tempPositionC=AlphaBetaChess.kingPositionC;
+		int tempPositionC=game.getKingPositionC();
 		for (int i = 0; i < 64; i++) {
-			switch (AlphaBetaChess.chessBoard[i / 8][i % 8]) {
+			switch (game.getChessBoard()[i / 8][i % 8]) {
 			case "P":
-				AlphaBetaChess.kingPositionC=i;
-				if(!AlphaBetaChess.kingSafe()){
+				game.setKingPositionC(i);
+				if(!game.kingSafe()){
 					counter-=64;
 				}
 				break;
 			case "R":
-				AlphaBetaChess.kingPositionC=i;
-				if(!AlphaBetaChess.kingSafe()){
+				game.setKingPositionC(i);
+				if(!game.kingSafe()){
 					counter-=500;
 				}
 				break;
 			case "N":
-				AlphaBetaChess.kingPositionC=i;
-				if(!AlphaBetaChess.kingSafe()){
+				game.setKingPositionC(i);
+				if(!game.kingSafe()){
 					counter-=300;
 				}
 				break;
 			case "B":
-				AlphaBetaChess.kingPositionC=i;
-				if(!AlphaBetaChess.kingSafe()){
+				game.setKingPositionC(i);
+				if(!game.kingSafe()){
 					counter-=300;
 				}
 				break;
 			case "Q":
-				AlphaBetaChess.kingPositionC=i;
-				if(!AlphaBetaChess.kingSafe()){
+				game.setKingPositionC(i);
+				if(!game.kingSafe()){
 					counter-=900;
 				}
 				break;
 
 			}
 		}
-		AlphaBetaChess.kingPositionC=tempPositionC;
-		if(!AlphaBetaChess.kingSafe()){
+		game.setKingPositionC(tempPositionC);
+		if(!game.kingSafe()){
 			counter-=200;
 		}
 		return counter/2;
 
 	}
 
-	public static int rateMaterial() {
+	public int rateMaterial() {
 		int counter = 0,bishopCounter = 0;
 		for (int i = 0; i < 64; i++) {
-			switch (AlphaBetaChess.chessBoard[i / 8][i % 8]) {
+			switch (game.getChessBoard()[i / 8][i % 8]) {
 			case "P":
 				counter += 100;
 				break;
@@ -166,11 +172,11 @@ public class Rating {
 
 	}
 
-	public static int rateMoveablitly(int listLength,int depth,int material) {
+	public int rateMoveablitly(int listLength,int depth,int material) {
 		int counter = 0;
 		counter+=listLength;//five points per possible move
 		if(listLength==0){//Checkmate or stalemate
-			if(!AlphaBetaChess.kingSafe()){//checkate
+			if(!game.kingSafe()){//checkate
 				counter+=(-200000*depth);
 			}else{//stalemate
 				counter+=(-150000*depth);
@@ -180,10 +186,10 @@ public class Rating {
 
 	}
 
-	public static int ratePositional(int material) {
+	public int ratePositional(int material) {
 		int counter = 0;
 		for (int i = 0; i < 64; i++) {
-			switch (AlphaBetaChess.chessBoard[i / 8][i % 8]) {
+			switch (game.getChessBoard()[i / 8][i % 8]) {
 			case "P":
 				counter += pawnBoard[i/8][i%8];
 				break;
@@ -202,18 +208,16 @@ public class Rating {
 			case "K":
 				if(material>=1750){
 					counter+=kingMidBoard[i/8][i%8];
-					counter+=AlphaBetaChess.possibleK(AlphaBetaChess.kingPositionC).length()*10;
+					counter+=game.possibleK(game.getKingPositionC()).length()*10;
 				}else{
 					counter+=kingEndBoard[i/8][i%8];
-					counter+=AlphaBetaChess.possibleK(AlphaBetaChess.kingPositionC).length()*30;
+					counter+=game.possibleK(game.getKingPositionC()).length()*30;
 
 				}
 				break;
-
 			}
 		}
+		
 		return counter;
-
 	}
-
 }
