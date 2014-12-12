@@ -10,7 +10,7 @@ import java.awt.event.*;
 public class UserInterface extends JPanel implements MouseListener,
 		MouseMotionListener {
 	private int mouseX, mouseY, newMouseX, newMouseY;
-	private int squareSize = 32;
+	private int squareSize = 64;
 	private AlphaBetaChess game;
 
 	public UserInterface(AlphaBetaChess game) {
@@ -32,7 +32,7 @@ public class UserInterface extends JPanel implements MouseListener,
 					((i + 1) / 8) * squareSize, squareSize, squareSize);
 		}
 		Image chessPiecesImages;
-		chessPiecesImages = new ImageIcon("chess-figures1.png").getImage();
+		chessPiecesImages = new ImageIcon("chess-figures.png").getImage();
 		//g.drawImage(chessPiecesImages, x, 0, x + 100, 100, x, 0, x + 100, 100,this);
 		for (int i = 0; i < 64; i++) {
 			int j = -1, k = -1;
@@ -86,6 +86,14 @@ public class UserInterface extends JPanel implements MouseListener,
 				k = 1;
 				break;
 
+			}
+			if(game.getHumanAsWhite()==0){
+				if(k == 0){
+					k = 1;
+				}else{
+					k = 0;
+				}
+				
 			}
 			if (j != -1 && k != -1) {
 				g.drawImage(chessPiecesImages, (i % 8) * squareSize, (i / 8)

@@ -26,7 +26,7 @@ public class ChessGame {
 		f.setVisible(true);
 		System.out.println(game.possibleMoves());
 		Object[] option = {"Computer", "Human"};
-		game.setHumanAsWhite(JOptionPane.showOptionDialog(null, "Who should play as White", "ABC Options", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[1]));
+		game.setHumanAsWhite(JOptionPane.showOptionDialog(null, "Who should play as White", "Choose Your Color", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, option, option[1]));
 	
 		if (game.getHumanAsWhite() == 0){
 			long startTime=System.currentTimeMillis();
@@ -39,9 +39,9 @@ public class ChessGame {
 		
 		//makeMove("7655 ");
 		//undoMove("7655 ");
-		for(int i = 0;i<8;i++){
-			System.out.println(game.getChessBoard()[i/8][i%8]);
+		//for(int i = 0;i<8;i++){
+			//System.out.println(game.getChessBoard()[i/8][i%8]);
 			//System.out.println(Arrays.toString(game.getChessBoard[i]));
-		}
+		//}
 	}
 }
